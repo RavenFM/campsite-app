@@ -6,10 +6,10 @@ import * as Animatable from 'react-native-animatable';
 
 const RenderCampsite = (props) => {
     const { campsite } = props;
-
     const view = useRef();
 
     const isLeftSwipe = ({ dx }) => dx < -200;
+    const isRightSwipe = ({ dx }) => dx > 200; 
 
     const panResponder = PanResponder.create({
         onStartShouldSetPanResponder: () => true,
@@ -25,9 +25,7 @@ const RenderCampsite = (props) => {
             if (isLeftSwipe(gestureState)) {
                 Alert.alert(
                     'Add Favorite',
-                    'Are you sure you wish to add ' +
-                        campsite.name +
-                        ' to favorites?',
+                    `Are you sure you wish to add ${campsite.name} to favorites?`,
                     [
                         {
                             text: 'Cancel',
@@ -44,6 +42,8 @@ const RenderCampsite = (props) => {
                     ],
                     { cancelable: false }
                 );
+            } else if (isRightSwipe(gestureState)) {
+                props.onShowModal(); 
             }
         }
     });
@@ -51,7 +51,7 @@ const RenderCampsite = (props) => {
     if (campsite) {
         return (
             <Animatable.View
-                animation='fadeInDownBig'
+                animation="fadeInDownBig"
                 duration={2000}
                 delay={1000}
                 ref={view}
@@ -67,8 +67,8 @@ const RenderCampsite = (props) => {
                     <View style={styles.cardRow}>
                         <Icon
                             name={props.isFavorite ? 'heart' : 'heart-o'}
-                            type='font-awesome'
-                            color='#f50'
+                            type="font-awesome"
+                            color="#f50"
                             raised
                             reverse
                             onPress={() =>
@@ -78,9 +78,9 @@ const RenderCampsite = (props) => {
                             }
                         />
                         <Icon
-                            name='pencil'
-                            type='font-awesome'
-                            color='#5637DD'
+                            name="pencil"
+                            type="font-awesome"
+                            color="#5637DD"
                             raised
                             reverse
                             onPress={props.onShowModal}
