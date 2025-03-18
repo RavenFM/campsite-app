@@ -12,6 +12,7 @@ import HomeScreen from "./HomeScreen";
 import AboutScreen from "./AboutScreen";
 import ContactScreen from "./ContactScreen";
 import ReservationScreen from "./ReservationScreen";
+import FavoritesScreen from "./FavoritesScreen"; // <-- New import
 import { Icon } from "react-native-elements";
 import logo from "../assets/images/logo.png";
 import { useDispatch } from "react-redux";
@@ -53,7 +54,6 @@ const HomeNavigator = () => {
 
 const AboutNavigator = () => {
   const Stack = createStackNavigator();
-
   return (
     <Stack.Navigator screenOptions={screenOptions}>
       <Stack.Screen
@@ -76,7 +76,6 @@ const AboutNavigator = () => {
 
 const ContactNavigator = () => {
   const Stack = createStackNavigator();
-
   return (
     <Stack.Navigator screenOptions={screenOptions}>
       <Stack.Screen
@@ -100,7 +99,6 @@ const ContactNavigator = () => {
 
 const ReservationNavigator = () => {
   const Stack = createStackNavigator();
-
   return (
     <Stack.Navigator screenOptions={screenOptions}>
       <Stack.Screen
@@ -111,6 +109,30 @@ const ReservationNavigator = () => {
           headerLeft: () => (
             <Icon
               name="tree"
+              type="font-awesome"
+              iconStyle={styles.stackIcon}
+              onPress={() => navigation.toggleDrawer()}
+            />
+          ),
+        })}
+      />
+    </Stack.Navigator>
+  );
+};
+
+// NEW: FavoritesNavigator
+const FavoritesNavigator = () => {
+  const Stack = createStackNavigator();
+  return (
+    <Stack.Navigator screenOptions={screenOptions}>
+      <Stack.Screen
+        name="Favorites" // Changed name prop
+        component={FavoritesScreen} // Changed component to FavoritesScreen
+        options={({ navigation }) => ({
+          title: "Favorite Campsites", // Set title to "Favorite Campsites"
+          headerLeft: () => (
+            <Icon
+              name="heart" // Use heart icon
               type="font-awesome"
               iconStyle={styles.stackIcon}
               onPress={() => navigation.toggleDrawer()}
@@ -234,6 +256,24 @@ const Main = () => {
             drawerIcon: ({ color }) => (
               <Icon
                 name="tree"
+                type="font-awesome"
+                size={24}
+                iconStyle={{ width: 24 }}
+                color={color}
+              />
+            ),
+          }}
+        />
+        {/* NEW: Add FavoritesNav */}
+        <Drawer.Screen
+          name="FavoritesNav" // Changed name prop
+          component={FavoritesNavigator} // Set component to FavoritesNavigator
+          options={{
+            title: "My Favorites", // Changed title to "My Favorites"
+            headerShown: false,
+            drawerIcon: ({ color }) => (
+              <Icon
+                name="heart" // Use heart icon
                 type="font-awesome"
                 size={24}
                 iconStyle={{ width: 24 }}
